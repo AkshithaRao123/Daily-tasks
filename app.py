@@ -42,7 +42,7 @@ def send_tasks_to_db(user_id, tasks):
 
 
 def send_tasks_to_discord(user_id, tasks):
-    webhook_url = "https://discord.com/api/webhooks/1342784066381942814/UsS8U1eIxNQGmOF-eb_lOZoTLAUgZNSUexLUhraSKaTkwj8yG9W8nLM-hh77J2dV_JUK"
+    webhook_url = "hwebhook_urlK"
 
     embeds = []
     fields = []
