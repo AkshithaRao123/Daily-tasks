@@ -36,6 +36,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @commands.is_owner()
 async def sync_command(ctx, guild=GUILD):
     await bot.tree.sync(guild=guild)
+    print("Commands synced")
     await ctx.send("✅ Commands synced successfully!", delete_after = 20)
 
 
