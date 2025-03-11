@@ -4,36 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Task Form</title>
+  <title>Weekly Task Form</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tom Select CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100 py-10">
   <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md">
-    <h1 class="text-3xl font-bold text-center mb-8">Daily Task Form</h1>
+    <h1 class="text-3xl font-bold text-center mb-8">Weekly Task Form</h1>
 
     <form id="taskForm" class="space-y-8" action="/submit" method="POST">
-        <input type="hidden" name="user_id" value="{{ user_id }}">
-        <input type="hidden" name="task_count" id="taskCountInput">
-      
-        <div id="tasksContainer"></div>
-      
-        <div class="flex justify-between">
-          <button type="button" id="addTaskButton"
-            class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
-            Add Task
-          </button>
-          <button type="button" id="removeTaskButton"
-            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
-            Remove Last Task
-          </button>
-          <button type="submit"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-            Submit All
-          </button>
-        </div>
+      <input type="hidden" name="user_id" value="{{ user_id }}">
+      <input type="hidden" name="task_count" id="taskCountInput">
+
+      <div id="tasksContainer"></div>
+
+      <div class="flex justify-between">
+        <button type="button" id="addTaskButton"
+          class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+          Add Task
+        </button>
+        <button type="button" id="removeTaskButton"
+          class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+          Remove Last Task
+        </button>
+        <button type="submit"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+          Submit All
+        </button>
+      </div>
     </form>
   </div>
+
+  <!-- Tom Select JS -->
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
   <script>
     let taskCount = 0;
@@ -44,35 +49,48 @@
       const taskHTML = `
         <div class="task p-6 border border-gray-300 rounded-lg mb-6 bg-gray-50 space-y-5">
           <h2 class="text-2xl font-semibold mb-4">Task ${taskCount}</h2>
-          
+
           <div>
             <label class="block font-medium mb-1">Task Name <span class="text-red-500">*</span></label>
-            <input type="text" class="w-full border p-2 rounded task_name" placeholder="Enter the Task Name" required>
+            <input type="text" class="w-full border p-2 rounded task_name" placeholder="Enter the Task Name">
             <p class="error-message text-red-500 text-sm hidden">Task Name is required.</p>
           </div>
 
           <div>
-            <label class="block font-medium mb-1">Priority <span class="text-red-500">*</span></label>
-            <select class="w-full border p-2 rounded priority" required>
-              <option value="">Select Priority</option>
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
-            </select>
-            <p class="error-message text-red-500 text-sm hidden">Priority is required.</p>
+            <label class="block font-medium mb-1">Why? <span class="text-red-500">*</span></label>
+            <textarea class="w-full border p-2 rounded task_why" placeholder="Enter why this task is important"></textarea>
+            <p class="error-message text-red-500 text-sm hidden">The answer is required.</p>
           </div>
 
           <div>
-            <label class="block font-medium mb-1">Description <span class="text-red-500">*</span></label>
-            <textarea class="w-full border p-2 rounded description" placeholder="Enter a detailed description" required></textarea>
-            <p class="error-message text-red-500 text-sm hidden">Description is required.</p>
+            <label class="block font-medium mb-1">How? <span class="text-red-500">*</span></label>
+            <textarea class="w-full border p-2 rounded task_how" placeholder="Enter how to complete this task"></textarea>
+            <p class="error-message text-red-500 text-sm hidden">The answer is required.</p>
+          </div>
+
+          <div>
+            <label class="block font-medium mb-1">Dependencies <span class="text-red-500">*</span></label>
+            <select class="w-full dependencies" multiple placeholder="Select dependencies...">
+              <option value="Manoj">Manoj</option>
+              <option value="Prashanth">Prashanth</option>
+              <option value="Saranya">Saranya</option>
+              <option value="Sandesh">Sandesh</option>
+              <option value="Vivek">Vivek</option>
+              <option value="Pavithra">Pavithra</option>
+              <option value="Adi">Adi</option>
+              <option value="Akshitha">Akshitha</option>
+              <option value="Sharon">Sharon</option>
+              <option value="None">None</option>
+            </select>
+            <p class="error-message text-red-500 text-sm hidden">Dependency is required.</p>
           </div>
 
           <div>
             <label class="block font-medium mb-1">Estimated Time <span class="text-red-500">*</span></label>
             <div class="flex gap-3">
-              <input type="number" min="1" class="w-full border p-2 rounded time_value" placeholder="Enter time" required>
-              <select class="border p-2 rounded time_unit" required>
+              <input type="number" min="1" class="w-full border p-2 rounded time_value"
+                placeholder="Enter time">
+              <select class="border p-2 rounded time_unit">
                 <option value="">Select Unit</option>
                 <option>Minutes</option>
                 <option>Hours</option>
@@ -80,9 +98,34 @@
             </div>
             <p class="error-message text-red-500 text-sm hidden">Both time value and unit are required.</p>
           </div>
+
+          <div>
+            <label class="block font-medium mb-1">Great Performance <span class="text-red-500">*</span></label>
+            <textarea class="w-full border p-2 rounded great_performance" placeholder="Enter your idea of great performance in executing the task"></textarea>
+            <p class="error-message text-red-500 text-sm hidden">Description is required.</p>
+          </div>
+
+          <div>
+            <label class="block font-medium mb-1">Good Performance <span class="text-red-500">*</span></label>
+            <textarea class="w-full border p-2 rounded good_performance" placeholder="Enter your idea of good performance in executing the task"></textarea>
+            <p class="error-message text-red-500 text-sm hidden">Description is required.</p>
+          </div>
+
+          <div>
+            <label class="block font-medium mb-1">Bad Performance <span class="text-red-500">*</span></label>
+            <textarea class="w-full border p-2 rounded bad_performance" placeholder="Enter your idea of bad performance in executing the task"></textarea>
+            <p class="error-message text-red-500 text-sm hidden">Description is required.</p>
+          </div>
         </div>
       `;
       document.getElementById('tasksContainer').insertAdjacentHTML('beforeend', taskHTML);
+
+      // Initialize Tom Select for the new dependencies dropdown
+      new TomSelect('.dependencies', {
+        plugins: ['remove_button'],
+        create: false,
+        maxItems: null,
+      });
     }
 
     function removeLastTask() {
@@ -103,15 +146,27 @@
         const taskName = task.querySelector('.task_name');
         const taskNameError = task.querySelector('.task_name + .error-message');
 
-        const priority = task.querySelector('.priority');
-        const priorityError = task.querySelector('.priority + .error-message');
+        const taskWhy = task.querySelector('.task_why');
+        const taskWhyError = task.querySelector('.task_why + .error-message');
 
-        const description = task.querySelector('.description');
-        const descriptionError = task.querySelector('.description + .error-message');
+        const taskHow = task.querySelector('.task_how');
+        const taskHowError = task.querySelector('.task_how + .error-message');
+
+        const dependencies = task.querySelector('.dependencies');
+        const dependenciesError = task.querySelector('.dependencies + .error-message');
 
         const timeValue = task.querySelector('.time_value');
         const timeUnit = task.querySelector('.time_unit');
         const timeError = task.querySelector('.time_unit').parentElement.nextElementSibling;
+
+        const greatPerformance = task.querySelector('.great_performance');
+        const greatPerformanceError = task.querySelector('.great_performance + .error-message');
+
+        const goodPerformance = task.querySelector('.good_performance');
+        const goodPerformanceError = task.querySelector('.good_performance + .error-message');
+
+        const badPerformance = task.querySelector('.bad_performance');
+        const badPerformanceError = task.querySelector('.bad_performance + .error-message');
 
         // Validate Task Name
         if (taskName.value.trim() === '') {
@@ -121,20 +176,29 @@
           taskNameError.classList.add('hidden');
         }
 
-        // Validate Priority
-        if (priority.value === '') {
-          priorityError.classList.remove('hidden');
+        // Validate Why
+        if (taskWhy.value === '') {
+          taskWhyError.classList.remove('hidden');
           isValid = false;
         } else {
-          priorityError.classList.add('hidden');
+          taskWhyError.classList.add('hidden');
         }
 
-        // Validate Description
-        if (description.value.trim() === '') {
-          descriptionError.classList.remove('hidden');
+        // Validate How
+        if (taskHow.value === '') {
+          taskHowError.classList.remove('hidden');
           isValid = false;
         } else {
-          descriptionError.classList.add('hidden');
+          taskHowError.classList.add('hidden');
+        }
+
+        // Validate Dependencies
+        const selectedDependencies = Array.from(dependencies.selectedOptions).map(option => option.value);
+        if (selectedDependencies.length === 0) {
+          dependenciesError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          dependenciesError.classList.add('hidden');
         }
 
         // Validate Estimated Time
@@ -145,15 +209,41 @@
           timeError.classList.add('hidden');
         }
 
+        // Validate Great Performance
+        if (greatPerformance.value === '') {
+          greatPerformanceError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          greatPerformanceError.classList.add('hidden');
+        }
+
+        // Validate Good Performance
+        if (goodPerformance.value === '') {
+          goodPerformanceError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          goodPerformanceError.classList.add('hidden');
+        }
+
+        // Validate Bad Performance
+        if (badPerformance.value === '') {
+          badPerformanceError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          badPerformanceError.classList.add('hidden');
+        }
+
         if (isValid) {
           tasks.push({
             taskName: taskName.value,
-            priority: priority.value,
-            description: description.value,
+            dependencies: selectedDependencies,
             estimatedTime: {
               value: timeValue.value,
               unit: timeUnit.value
-            }
+            },
+            greatPerformance: greatPerformance.value,
+            goodPerformance: goodPerformance.value,
+            badPerformance: badPerformance.value
           });
         }
       });
@@ -181,7 +271,7 @@
             tasks: validationResult.tasks,
           };
 
-          fetch('/submit', {
+          fetch(`/submit`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -190,11 +280,10 @@
           })
             .then(response => response.json())
             .then(data => {
-              alert(data.message);
+              alert('Tasks submitted successfully!');
             })
             .catch((error) => {
               console.error('Error:', error);
-              alert('There was an error submitting tasks. Please try again later.');
             });
         } else {
           alert('Please fill out all required fields in every task.');
