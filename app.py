@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-GUILD = discord.Object(id=1341366670417203293)
+GUILD = discord.Object(id=1168899349527416872)
 webhook_url = f"{os.getenv('WEBHOOK_DAILY')}?wait=true"
 
 MONGO_URI = os.getenv("MONGO_URI") 
@@ -41,7 +41,7 @@ async def sync_command(ctx, guild=GUILD):
 
 date_today = datetime.datetime.now().strftime("%d-%m-%Y (%A)")
 
-daily_channel_id = 1343804854056779869
+daily_channel_id = 1348866660068753448
 
 scheduler = AsyncIOScheduler()
 
